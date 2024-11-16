@@ -1,0 +1,6 @@
+Validando usuario de ejecución
+1. Moviendo el archivo de passwords a /home/oracle/backups
+2,3. Creando un nuevo archivo de passwords
+usar el password admin1234#
+comprobando existencia
+-rw-r----- 1 oracle oinstall 6144 Nov 16 10:57 /opt/oracle/product/23ai/dbhomeFree/dbs/orapwfree

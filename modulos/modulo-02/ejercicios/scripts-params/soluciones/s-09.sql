@@ -8,6 +8,7 @@ connect sys/system2 as sysdba
 Prompt creando un pfile a partir de un SPFILE
 create pfile='/tmp/pfile-spfile.ora' from spfile;
 
+
 Prompt creando un pfile a partir de la instancia (debe estar iniciada)
 create pfile='/tmp/pfile-memory.ora' from memory;
 
@@ -16,9 +17,8 @@ Prompt modificar permisos ya que el archivo le pertenece a oracle
 !sudo chmod 777 /tmp/pfile-memory.ora
 
 Pause Revisar archivos y detectar diferencias [Enter] para continuar
--- Usar diff o cat?
 
-Prompt Mostrando el valor del parametro undo_retention antes del reinicio - nivel sesion
+Prompt Mostrando el valor del parametro undo_retention antes de reinicio - nivel sesión
 show parameter undo_retention
 
 Prompt agregando parametro undo_retention al pfile /tmp/pfile-memory.ora
@@ -36,8 +36,3 @@ show parameter undo_retention
 Prompt modificar el valor del parametro undo_retention en el spfile
 Pause  ¿Qué pasará?
 alter system undo_retention=1500 scope=spfile;
-
--- ERROR: ya que la instancia se inicio con un pfile en lugar de spfile, 
--- por lo tanto NO puede modificarse
--- Funcionaria si: 
--- alter system undo_retention=1500 scope=memory;

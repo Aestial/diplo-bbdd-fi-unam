@@ -5,11 +5,11 @@
 Prompt actualizando parámetros
 
 prompt conectando como sysdba
-connect sys/system1 as sysdba
+connect sys/system2 as sysdba
 
 Prompt Realizando consulta inicial de parámetros
 col name format a28
-col value format a30
+col value format a40
 set linesize window
 select name,value,isses_modifiable,issys_modifiable,ispdb_modifiable,con_id
 from v$system_parameter
@@ -24,11 +24,12 @@ deferred_segment_creation    TRUE                                     TRUE  IMME
 
 */
 
+
 Prompt realizando un respaldo
 create pfile from spfile;
 
 prompt modificando el valor de nls_date_format
-Prompt Nivel sesion ? OK
+Prompt Nivel sesión ?  OK
 alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
 pause [Enter] para continuar
 
@@ -40,15 +41,16 @@ Prompt nivel Instancia y spfile ? Se espera error
 alter system set nls_date_format='dd/mm/yyyy' scope=both;
 pause [Enter] para continuar
 
-Prompt nivel spfile ? Se espera error
-alter system set nls_date_format='dd/mm/yyyy' scope=both;
+Prompt nivel spfile ? OK
+alter system set nls_date_format='dd/mm/yyyy' scope=spfile;
 pause [Enter] para continuar
 
 Prompt nivel PBD ? OK
-alter session set container=jhvdiplo_s2;
-alter system set nls_date_format='yyyy/mm/dd' container=current scope=spfile;
+alter session set container=jrcdiplo_s2;
+alter system set nls_date_format='yyyy/mm/dd' container=current  scope=spfile;
 alter session set container=cdb$root;
 pause [Enter] para continuar
+
 
 Prompt modificando el valor para db_domain
 Prompt Nivel sesión ?  Se espera error.
@@ -56,10 +58,10 @@ alter session set db_domain='fi.unam.mx';
 pause [Enter] para continuar
 
 Prompt Nivel instancia ?  Se espera error.
-alter session set db_domain='fi.unam.mx' scope=memory;
+alter system set db_domain='fi.unam.mx' scope=memory;
 pause [Enter] para continuar
 
-Prompt Nivel instancia y spfile ?  Se espera error.
+Prompt Nivel instancia y spfile  ?  Se espera error.
 alter system set db_domain='fi.unam.mx' scope=both;
 pause [Enter] para continuar
 
@@ -72,6 +74,7 @@ alter session set container=jrcdiplo_s2;
 alter system set db_domain='fi.unam.pdb' container=current scope=spfile;
 alter session set container=cdb$root;
 pause [Enter] para continuar
+
 
 Prompt modificando el valor para  deferred_segment_creation
 Prompt Nivel sesion ? OK
@@ -97,7 +100,7 @@ alter session set container=cdb$root;
 pause [Enter] para continuar
 
 
-PPrompt limpieza:
+Prompt limpieza:
 
 Prompt para el parametro nls_date_format
 alter system reset nls_date_format scope=spfile;
@@ -122,8 +125,13 @@ alter session set container=jrcdiplo_s2;
 alter system reset deferred_segment_creation scope=spfile;
 alter session set container=cdb$root;
 
-Prompt Reiniciar para comprobar estado original de los parámetros
-shutdown IMMEDIATE
+--- actualizar db_domain
+alter system set db_domain='fi.unam' container=all scope=spfile;
+
+
+
+Prompt Reiniciar para comprobar estado original de los parámetro
+shutdown immediate
 startup
 
 Prompt mostrando nuevamente los valores en session/memoria (v$parameter)
@@ -137,7 +145,7 @@ where name in ('nls_date_format','db_domain','deferred_segment_creation');
 
 Prompt mostrando nuevamente los valores en spfile (v$spparameter)
 select name,value,con_id
-from v$system_parameter
+from v$spparameter
 where name in ('nls_date_format','db_domain','deferred_segment_creation');
 
 Prompt nivel PDB

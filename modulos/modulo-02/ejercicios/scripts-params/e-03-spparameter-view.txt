@@ -1,0 +1,26 @@
+sys@free> 
+sys@free> run
+  1* select name,'=', value from v$spparameter where value is not null
+
+NAME                           ' VALUE
+------------------------------ - --------------------------------------------------
+memory_target                  = 805306368
+control_files                  = /unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/c
+                                 ontrol01.ctl
+
+control_files                  = /unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/c
+                                 ontrol02.ctl
+
+control_files                  = /unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/c
+                                 ontrol03.ctl
+
+_instance_recovery_bloom_filte = 1048576
+r_size
+
+db_domain                      = fi.unam
+db_name                        = free
+enable_pluggable_database      = true
+
+8 rows selected.
+
+sys@free> spool off

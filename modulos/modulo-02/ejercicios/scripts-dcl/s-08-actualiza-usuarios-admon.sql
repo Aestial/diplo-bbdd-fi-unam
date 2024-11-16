@@ -1,6 +1,6 @@
 --@Autor: Hernandez Vazquez Jaime
 --@Fecha creación: 09/11/2024
---@Descripción: <Breve descripción del contenido del script>
+--@Descripción: Verificacion del archivo de passwords creado anteriormente.
 
 prompt 0. Generando spool
 spool jhv-s-08-actualiza-usuarios-admon-spool.txt
