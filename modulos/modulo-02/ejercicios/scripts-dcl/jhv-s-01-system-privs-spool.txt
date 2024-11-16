@@ -1,0 +1,44 @@
+1. Conectando como sys en jhvdiplo_s1
+Connected.
+
+
+
+2. Creando usuario jaime01
+
+User dropped.
+
+
+User created.
+
+3. Otorgar privilegios básicos a jaime01
+
+Grant succeeded.
+
+4. Entrar a sesión como jaime01  y crear una tabla para validar
+Connected.
+
+
+
+5. Crear tabla de prueba para validar privilegios
+
+Table created.
+
+6. Crear una sesión como sysdba
+Connected.
+
+
+
+7. Mostrando los datos de los privilegios
+
+GRANTEE              PRIVILEGE                                ADM
+-------------------- ---------------------------------------- ---
+JAIME01              CREATE TABLE                             NO
+JAIME01              CREATE SESSION                           NO
+
+8. [Enter] para continuar, Realizar limpieza.
+
+
+User dropped.
+
+Conclusiones:
+Apagando spool y desconectando...

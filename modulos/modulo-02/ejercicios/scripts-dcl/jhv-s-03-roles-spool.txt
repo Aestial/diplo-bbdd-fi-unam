@@ -1,0 +1,73 @@
+1. Conectando como sysdba
+Connected.
+
+
+
+2.  Creando roles
+
+Role dropped.
+
+
+Role dropped.
+
+
+Role created.
+
+
+Role created.
+
+3. Asignar privilegios al rol web_admin_role
+
+Grant succeeded.
+
+4. Asignarle los privilegios que define el rol web_admin_role al rol web_root_role
+
+Grant succeeded.
+
+5. Creando usuario j_admin, asignarle roles y privilegios para propagar
+
+User dropped.
+
+
+User created.
+
+
+Grant succeeded.
+
+6. Comprobar que el usuario j_admin puede entrar a sesión a través de su rol
+Connected.
+
+
+
+¿ Fue posible entrar a sesión? Presionar enter para continuar
+
+7. Creando al usuario j_os_admin sin quota
+Connected.
+
+
+
+
+User dropped.
+
+
+User created.
+
+8. Otorgando el rol a partir del usuario j_admin
+Connected.
+
+
+
+
+Grant succeeded.
+
+¿Funcionó? Enter para continuar
+
+9. Comprobando resultados para el usuario j_os_admin
+Connected.
+
+
+
+¿Fue posible conectarse como usuario j_os_admin?
+
+10. Realizar limpieza
+Apagando spool y desconectando...

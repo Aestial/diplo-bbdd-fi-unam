@@ -1,0 +1,55 @@
+1. Conectando como sysdba
+Connected.
+
+
+
+2. Creando usuarios user01, user02 y user03
+
+User created.
+
+
+User created.
+
+
+User created.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+3. Asignando privilegios de administración
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+4. Consultando los datos del archivo de passwords
+
+USERNAME        SYSDB SYSOP SYSAS SYSBA SYSDG SYSKM ACCOUNT_STATUS
+--------------- ----- ----- ----- ----- ----- ----- --------------------
+LAST_LOGIN
+----------------------------------------
+SYS             TRUE  TRUE  FALSE FALSE FALSE FALSE OPEN
+
+
+USER02          FALSE TRUE  FALSE FALSE FALSE FALSE OPEN
+
+
+USER01          TRUE  FALSE FALSE FALSE FALSE FALSE OPEN
+
+
+USER03          FALSE FALSE FALSE TRUE  FALSE FALSE OPEN
+
+
+
+Ejecutar shell script como usuario oracle
+Apagando spool y desconectando...

@@ -1,0 +1,41 @@
+Connected.
+
+
+
+1. Crear un user profile
+
+Profile created.
+
+2. crear al usuario user01 y asignarle el profile
+
+User created.
+
+
+Grant succeeded.
+
+3.  Abrir 3 terminales e intentar crear 3 sesiones con el usuario user01
+¿Funcionó la restricción del profile? Presionar enter para continuar
+\
+4.  consultando datos de las sesiones del usuario user01
+
+       SID    SERIAL# USERNAME             STATUS
+---------- ---------- -------------------- --------
+SCHEMANAME
+--------------------------------------------------------------------------------
+        20      42610 USER01               INACTIVE
+USER01
+
+        21      24318 USER01               INACTIVE
+USER01
+
+
+Cerrar sesiones del usuario USER01 antes de continuar
+
+5. Realizando limpieza
+
+Profile dropped.
+
+
+User dropped.
+
+Apagando spool y desconectando...

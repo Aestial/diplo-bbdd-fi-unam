@@ -1,0 +1,154 @@
+idle> !ls /unam/diplo-bd/modulos/modulo-02
+
+idle> show user
+USER is "SYS"
+idle> disconnect
+Disconnected from Oracle Database 23ai Free Release 23.0.0.0.0 - Develop, Learn, and Run for Free
+Version 23.6.0.24.10
+idle> connect sys as sysdba
+Connected.
+
+
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+sys@free> show con_id
+
+CON_ID
+------------------------------
+1
+sys@free> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 JHVDIPLO_S1                    READ WRITE NO
+sys@free> spool off
+sys@jhvdiplo_s1> show con_name
+
+CON_NAME
+------------------------------
+JHVDIPLO_S1
+sys@jhvdiplo_s1> show con_id
+
+CON_ID
+------------------------------
+3
+sys@jhvdiplo_s1> connect sys/system1@free as sysdba
+Connected.
+
+
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+sys@free> show con_id
+
+CON_ID
+------------------------------
+1
+sys@free> !lsnrctl status
+
+sys@free> --- conexion sin listener
+sys@free> connect sys/system1 as sysdba
+Connected.
+
+
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+sys@free> spool /unam/diplo-bd/modulos/modulo-02/jhv-diplo-11-08.txt append
+sys@free> --cambiarse a otro contenedor
+sys@free> alter session set container=jhvdiplo_s1;
+
+Session altered.
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+JHVDIPLO_S1
+sys@free> alter session set container=cdb$root;
+
+Session altered.
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+sys@free> --no necesita listener, podria estar apagado y realizar connexion
+sys@free> exit
+sys@free> connect sys/system1@free
+ERROR:
+ORA-28009: connection as SYS should be as SYSDBA or SYSOPER
+Help: https://docs.oracle.com/error-help/db/ora-28009/
+
+
+Warning: You are no longer connected to ORACLE.
+sys@free> connect sys/system1@free as sysdba
+Connected.
+
+
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+sys@free> exit
+sys@jhvdiplo_s1> select sysdate from dual;
+
+SYSDATE
+------------------
+08-NOV-24
+
+sys@jhvdiplo_s1> edit
+Wrote file afiedt.buf
+
+  1* select sysdate as fecha_actual from dual
+sys@jhvdiplo_s1> run
+  1* select sysdate as fecha_actual from dual
+
+FECHA_ACTUAL
+------------------
+08-NOV-24
+
+sys@jhvdiplo_s1> !pwd
+
+sys@jhvdiplo_s1> !ls
+
+sys@jhvdiplo_s1> !cd /unam/diplo-bd
+
+sys@jhvdiplo_s1> !pwd
+
+sys@jhvdiplo_s1> select '&mensaje' as mensaje from dual;
+Enter value for mensaje: Hola
+old   1: select '&mensaje' as mensaje from dual
+new   1: select 'Hola' as mensaje from dual
+
+MENS
+----
+Hola
+
+sys@jhvdiplo_s1> define mensaje='hola'
+sys@jhvdiplo_s1> select '&mensaje' as mensaje from dual;
+old   1: select '&mensaje' as mensaje from dual
+new   1: select 'hola' as mensaje from dual
+
+MENS
+----
+hola
+
+sys@jhvdiplo_s1> column username format A30
+sys@jhvdiplo_s1> set linesize window
+sys@jhvdiplo_s1> set pagesize 100
+sys@jhvdiplo_s1> exit

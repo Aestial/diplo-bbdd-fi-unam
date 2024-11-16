@@ -1,0 +1,53 @@
+sys@free> sqlplus /nolog
+SP2-0734: unknown command beginning "sqlplus /n..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+sys@free> exit
+idle> alter session set container=jhvdiplo_s1
+  2  ;
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+idle> alter session set container=jhvdiplo_s1;
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+idle> exit
+idle> !lsnrctl status
+
+idle> connect sys/system1 as sysdba
+Connected.
+
+
+
+sys@free> alter session set container=jhvdiplo_s1;
+
+Session altered.
+
+sys@free> show con_name
+
+CON_NAME
+------------------------------
+JHVDIPLO_S1
+sys@free> -- cambio de container usando connexion sin listener
+sys@free> select username, to_char(created,'DD/MM/YYYY HH:MI:SS') fecha_creacion,
+  2    to_char(expiry_date,'DD/MM/YYYY HH:MI:SS') fecha_expiracion
+  3    from user_users;
+
+USERNAME
+--------------------------------------------------------------------------------
+FECHA_CREACION      FECHA_EXPIRACION
+------------------- -------------------
+SYS
+18/10/2024 01:08:17
+
+
+sys@free> column username format A30
+sys@free> set linesize window
+sys@free> set pagesize 100
+sys@free> select username, to_char(created,'DD/MM/YYYY HH:MI:SS') fecha_creacion,
+  2    to_char(expiry_date,'DD/MM/YYYY HH:MI:SS') fecha_expiracion
+  3    from user_users;
+
+USERNAME                       FECHA_CREACION      FECHA_EXPIRACION
+------------------------------ ------------------- -------------------
+SYS                            18/10/2024 01:08:17
+
+sys@free> spool off

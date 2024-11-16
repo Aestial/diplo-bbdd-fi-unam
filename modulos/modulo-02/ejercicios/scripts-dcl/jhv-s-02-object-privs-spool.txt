@@ -1,0 +1,111 @@
+1 . Conectando como sysdba
+Connected.
+
+
+
+2. Crear usuarios de prueba
+
+User created.
+
+
+User created.
+
+3. Otorgar algunos system privs  a jaime01
+
+Grant succeeded.
+
+4. Otorgar solo create session a guest01
+
+Grant succeeded.
+
+5. Crear usuario guest02 a partir dela instrucción grant
+
+Grant succeeded.
+
+
+User altered.
+
+6. Permitir que guest02 pueda otorgar privilegios
+
+Grant succeeded.
+
+7. Conectando como jaime01
+Connected.
+
+
+
+8. Creando tabla y registro
+
+Table created.
+
+
+1 row created.
+
+9. Verificar que guest01 no puede acceder a los datos de jaime01
+Connected.
+
+
+
+select * from jaime01.test01
+                      *
+ERROR at line 1:
+ORA-00942: table or view "JAIME01"."TEST01" does not exist
+Help: https://docs.oracle.com/error-help/db/ora-00942/
+
+
+¿Fue posible consultar los datos de test01 ? Presionar enter para continuar
+
+10. Otorgarle permisos a guest01 para que pueda consultar datos de jaime01
+Connected.
+
+
+
+
+Grant succeeded.
+
+11. Comprobando acceso a la tabla test01 empleando al usuario guest01
+Connected.
+
+
+
+
+        ID NOMBRE
+---------- --------------------
+         1 uno
+
+¿Fue posible consultar los datos de jaime01.test01 ? Presionar enter para continuar
+
+12. Conectando como guest02
+Connected.
+
+
+
+13. Otorgar permiso para que guest02 le permita a guest01 insertar
+
+Grant succeeded.
+
+14. Comprobando los permisos de inserción para el usuario guest01
+Connected.
+
+
+
+
+1 row created.
+
+¿Fue posible insertar los datos en jaime01.test01? Presionar enter para continuar
+
+15. Realizando limpieza
+Connected.
+
+
+
+
+User dropped.
+
+
+User dropped.
+
+
+User dropped.
+
+Apagando spool y desconectando...

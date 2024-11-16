@@ -1,0 +1,38 @@
+conectando como sysdba
+ERROR:
+ORA-01017: invalid credential or not authorized; logon denied
+Help: https://docs.oracle.com/error-help/db/ora-01017/
+
+
+1. consultando archivo de passwords antes de agregar a los usuarios
+Solo el usuario sys debe estar en el archivo
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+[Enter para continuar]
+
+2. Reasignando privilegios de administración a los 3 usuarios
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+3. consultando nuevamente:
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+[Enter para continuar]
+
+4. Actualizar (sincronizar) los passwords de sys desde cdb$root
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+limpieza
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/
+SP2-0640: Not connected
+Help: https://docs.oracle.com/error-help/db/sp2-0640/

@@ -1,0 +1,165 @@
+1. Conectando como sysdba
+Connected.
+
+
+
+creando usuario user01
+
+User created.
+
+2 Otorgar privilegios para crear tablas y sesiones
+
+Grant succeeded.
+
+3 Asignar privilegios de sistema y privilegios de admon
+
+Grant succeeded.
+
+4. Creando a los usuarios user02 y user03
+
+User created.
+
+
+Grant succeeded.
+
+
+User created.
+
+
+Grant succeeded.
+
+5. Conectando como user01,mostrar esquema, crear tabla, otorgar privs
+Connected.
+
+
+
+¿Qué usuario y esquema se asignan con esta autenticación?  Enter para continuar
+
+usuario:
+USER is "USER01"
+esquema:
+
+SCHEMA
+--------------------------------------------------------------------------------
+USER01
+
+Crear tabla de prueba
+
+Table created.
+
+
+1 row created.
+
+
+Commit complete.
+
+
+        ID
+----------
+         1
+
+Otorgar permisos de lectura a TODOS los usuarios
+
+Grant succeeded.
+
+6. Autenticar como user01 as sysdba, mostrar datos
+Connected.
+
+
+
+¿Qué usuario y esquema se asignan con esta autenticación?  Enter para continuar
+
+usuario:
+USER is "SYS"
+esquema:
+
+SCHEMA
+--------------------------------------------------------------------------------
+SYS
+
+¿qué pasará al ejecutar select * from test ? Enter para continuar
+
+select * from test
+              *
+ERROR at line 1:
+ORA-00942: table or view "SYS"."TEST" does not exist
+Help: https://docs.oracle.com/error-help/db/ora-00942/
+
+
+¿qué pasará al ejecutar select * from user01.test ? Enter para continuar
+
+
+        ID
+----------
+         1
+
+7. Autenticar como sysoper con user01
+Connected.
+
+
+
+¿Qué usuario y esquema se asignan con esta autenticación?  Enter para continuar
+
+usuario:
+USER is "PUBLIC"
+esquema:
+
+SCHEMA
+--------------------------------------------------------------------------------
+PUBLIC
+
+¿qué pasará al ejecutar select * from test ? Enter para continuar
+
+select * from test
+              *
+ERROR at line 1:
+ORA-00942: table or view "PUBLIC"."TEST" does not exist
+Help: https://docs.oracle.com/error-help/db/ora-00942/
+
+
+¿qué pasará al ejecutar select * from user01.test ? Enter para continuar
+
+
+        ID
+----------
+         1
+
+8. Consultar la tabla pública test desde cualquier usario: user02, user03
+conectando como user02
+Connected.
+
+
+
+¿qué pasará al consultar los datos de la tabla test? Enter para continuar
+
+
+        ID
+----------
+         1
+
+conectando como user03
+Connected.
+
+
+
+¿qué pasará al consultar los datos de la tabla test? Enter para continuar
+
+
+        ID
+----------
+         1
+
+9. Limpieza
+Connected.
+
+
+
+
+User dropped.
+
+
+User dropped.
+
+
+User dropped.
+
