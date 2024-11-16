@@ -1,6 +1,6 @@
 # Diplomado Bases de Datos
 
-> ![Important]
+> [!WARNING]
 > Ver el estado actual (TODO) del repositorio, puede que no este a la par de la clase.
 
 ## Acerca 
