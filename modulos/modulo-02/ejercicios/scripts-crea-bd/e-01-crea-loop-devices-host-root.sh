@@ -13,21 +13,21 @@ cd "${diplo_dir}/disk-images"
 
 #disk1.img
 if [ -f "disk1.img" ]; then 
-  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl -C Cancelar"
+  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl-C Cancelar"
 fi;
 echo "creando archivo disk1.img"
 dd if=/dev/zero of=disk1.img bs=100M count=10
 
 #disk2.img
 if [ -f "disk2.img" ]; then 
-  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl -C Cancelar"
+  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl-C Cancelar"
 fi;
 echo "creando archivo disk2.img"
 dd if=/dev/zero of=disk2.img bs=100M count=10
 
 #disk3.img
 if [ -f "disk3.img" ]; then 
-  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl -C Cancelar"
+  read -p "El archivo ya existe [Enter] para sobrescribir, Ctrl-C Cancelar"
 fi;
 echo "creando archivo disk3.img"
 dd if=/dev/zero of=disk3.img bs=100M count=10

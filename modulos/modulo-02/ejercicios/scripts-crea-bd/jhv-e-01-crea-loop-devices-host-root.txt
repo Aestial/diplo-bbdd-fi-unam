@@ -1,0 +1,56 @@
+1. Creando directorio disk-images
+2,3. Crear archivos img
+creando archivo disk1.img
+creando archivo disk2.img
+creando archivo disk3.img
+4. Mostrando la creación de los archivos
+1001M	disk1.img
+1001M	disk2.img
+1001M	disk3.img
+5. Creando Loop devices 
+Creando loop device para disk1.img
+Creando loop device para disk2.img
+Creando loop device para disk3.img
+Mostrando la creación de loop devices
+/dev/loop1: [66307]:57410971 (/unam/diplo-bd/disk-images/disk2.img)
+/dev/loop2: [66307]:57410972 (/unam/diplo-bd/disk-images/disk3.img)
+/dev/loop0: [66307]:57410970 (/unam/diplo-bd/disk-images/disk1.img)
+6. Dando formato ext4 a los arhivos img
+Dando formato ext4 a disk1.img
+Discarding device blocks:      0/256000             done                            
+Creating filesystem with 256000 4k blocks and 64000 inodes
+Filesystem UUID: ecf28609-e585-4298-8b7d-34d3e7931bbc
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 0/8   done                            
+Writing inode tables: 0/8   done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: 0/8   done
+
+Dando formato ext4 a disk2.img
+Discarding device blocks:      0/256000             done                            
+Creating filesystem with 256000 4k blocks and 64000 inodes
+Filesystem UUID: ed27b136-b67c-4345-a72d-719b3b9c7f90
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 0/8   done                            
+Writing inode tables: 0/8   done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: 0/8   done
+
+Dando formato ext4 a disk3.img
+Discarding device blocks:      0/256000             done                            
+Creating filesystem with 256000 4k blocks and 64000 inodes
+Filesystem UUID: c2b1ca93-8ef6-430a-9f1a-af500cc1d387
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 0/8   done                            
+Writing inode tables: 0/8   done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: 0/8   done
+
+7. Creando directorios para usarse como puntos de montaje
+Listo!
