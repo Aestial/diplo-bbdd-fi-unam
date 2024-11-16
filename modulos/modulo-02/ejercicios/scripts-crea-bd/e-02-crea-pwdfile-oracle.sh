@@ -16,11 +16,11 @@ fi;
 #El password debe ser al menos de 8 caracteres con letras y caracteres
 # especiales.  Por ejemplo: Hola1234*  (no debe contener el nombre de usuario)
 echo "Creando archivo ${archivo_pwd}"
-orapw \
+orapwd \
   FORCE=Y \
   FILE="${archivo_pwd}" \
   FORMAT=12.2 \
-  SYS=password password=Hola1234*\
+  SYS=password password=Hola1234* 
 
 echo "2. Verificando la existencia del archivo"
 ls -l "${archivo_pwd}"
