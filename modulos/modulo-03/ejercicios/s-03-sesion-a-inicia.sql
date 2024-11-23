@@ -3,7 +3,7 @@
 --@Descripción: <Breve descripción del contenido del script>
 Prompt Conectando como c##user01 en cdb$root
 --#TODO
-
+connect c##user01/user01
 --TODO#
 
 Prompt Sesión para consultar la fecha (no cerrar la terminal)

@@ -7,7 +7,8 @@ connect c##user01/user01
 Prompt Crear tabla de prueba y crear un registro
 drop table if exists t_b_prueba;
 --#TODO
-
+create table t_b_prueba(id number);
+insert into t_b_prueba values(trunc(dbms_random.value(1,100))));
 --TODO#
 
 Prompt La tabla 't_b_prueba' contiene:
