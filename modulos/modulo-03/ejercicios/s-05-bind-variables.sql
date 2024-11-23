@@ -1,6 +1,6 @@
---@Autor: <Nombre del autor o autores>
---@Fecha creación: <Fecha de creación>
---@Descripción: <Breve descripción del contenido del script>
+--@Autor: Hernandez Vazquez Jaime
+--@Fecha creación: 23/11/2024
+--@Descripción: Probando diferentes sentencias SQL, con y sin binding
 
 Prompt Conectando a PDB como SYS...
 connect sys/system2@jrcdiplo_s2 as sysdba
@@ -20,29 +20,51 @@ create table user01.test(id number) segment creation immediate;
 
 Prompt Limpiando el Shared Pool y el Library Chache
 --#TODO
-
+alter system flush shared_pool;
 --TODO#
 
 prompt 1. Sentencias SQL con bind variables
 set timing on
 
 --#TODO
-
+begin
+  for i in 1..100000 loop
+    execute immediate 'insert into user01.test (id) values(:ph1)' using i;
+  end loop;
+commit;
+end;
+/
 --TODO#
 
 prompt 2. Sentencias SQL sin bind variables
 
 --#TODO
-
+begin
+  for i in 1..100000 loop
+    execute immediate 'insert into user01.test (id) values ('||i||')';
+  end loop;
+end;
+/
 --TODO#
 
 Prompt Mostrando datos de la sentencia SQL con bind variables
 --#TODO
-
+select executions, loads, parse_calls, disk_reads, buffer_gets, 
+  cpu_time/1000 cpu_time_ms, elapsed_time/1000 elapsed_time_ms
+from v$sqlstats
+where sql_text = 'insert into user01.test (id) values(:ph1)';
 --TODO#
 
 Prompt Mostrando datos de la sentencia SQL sin bind variables
 --#TODO
+
+select count(*) t_rows, sum(executions) executions, sum(loads) loads, 
+  sum(parse_calls) parse_calls, sum(disk_reads) disk_reads, 
+  sum(buffer_gets) buffer_gets, sum(cpu_time)/1000 cpu_time_ms, 
+  sum(elapsed_time)/1000 elapsed_time_ms
+from v$sqlstats
+where sql_text like 'insert into user01.test (id) values (%)'
+and sql_text <> 'insert into user01.test (id) values (:ph1)';
 
 --TODO#
 
