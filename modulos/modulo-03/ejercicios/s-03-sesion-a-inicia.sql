@@ -9,4 +9,3 @@ connect c##user01/user01
 Prompt Sesión para consultar la fecha (no cerrar la terminal)
 alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
 select sysdate;
-

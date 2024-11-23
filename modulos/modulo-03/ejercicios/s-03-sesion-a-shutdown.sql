@@ -9,7 +9,12 @@ col username format a15
 col logon_time format a20
 set linesize window
 --#TODO
-
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+select s.sid,s.serial#,s.con_id,s.username,s.logon_time,s.type,t.xid,t.start_date
+from v$session s
+left outer join v$transaction t
+  on s.saddr= t.ses_addr
+where username is not null;
 --TODO#
 
 

@@ -17,7 +17,6 @@ from v$session s
 left outer join v$transaction t
   on s.saddr= t.ses_addr
 where username is not null;
-
 --TODO#
 
 prompt Con base a la consulta, a continuación se ejecutará shutdown transactional

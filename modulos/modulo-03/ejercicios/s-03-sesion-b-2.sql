@@ -6,10 +6,9 @@ connect c##user01/user01
 
 Prompt Insertar otro registro en 't_b_prueba' y ejecutar *commit*
 --#TODO
-insert into t_b_prueba values(trunc(dbms_random.value(1,100)));
+insert into t_b_prueba values (trunc(dbms_random.value(1,100)));
 commit;
 --TODO#
 
 Prompt Mostrar los datos de la tabla 't_b_prueba':
 select * from t_b_prueba;
-
