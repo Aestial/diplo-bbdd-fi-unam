@@ -515,8 +515,237 @@ Prompt Listo!
 
 --------------
 
+s-04-componentes-sga.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+Prompt 1. COnectando como sysdba en cdb$root
+connect sys/system2 as sysdba
+
+Prompt 2. Realizando consulta a v$sgastat
+--#TODO
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+Prompt 1. Conectando como sysdba en cdb$root
+connect sys/system2 as sysdba
+
+Prompt 2. Realizando consulta a v$sgastat
+--#TODO
+
+--TODO#
+Pause Analizar la consulta, [Enter] para continuar
+
+Prompt 3. Realizando consulta a v$sgainfo
+
+--#TODO
+select q1.pool, q1.num_componentes,
+       trunc(q1.megas_usados,2) megas_usados,
+       trunc(q2.megas_libres,2) megas_libres,
+       trunc(q1.megas_usados + nvl(q2.megas_libres,0),2) mb_asignados
+       from (
+        select pool, count(*) as num_componentes,  sum(bytes)/1024/1024 megas_usados
+        from v$sgastat
+        where name <> 'free memory'
+        and pool is not null
+        group by pool
+       ) q1
+       left outer join (
+        select pool, trunc(bytes/1024/1024,2) megas_libres
+        from v$sgastat
+        where name = 'free memory'
+        and pool is not null
+       ) q2
+       on q1.pool = q2.pool
+union all
+select name, 0, bytes/1024/1024, -1 ,bytes/1024/1024
+from v$sgastat
+where pool is null
+order by megas_usados desc;
+--TODO#
 
 
+--TODO#
+Pause Analizar la consulta, [Enter] para continuar
+
+Prompt 3. Realizando consulta a v$sgainfo
+select name, trunc(bytes/1024/1024) mb_asignados
+from v$sgainfo
+where name not in (
+        'Free SGA Memory Available',
+        'Maximum SGA Size',
+        'Granule Size',
+        'Startup overhead in Shared Pool'
+)
+union all
+select 'Memoria total', trunc(sum(bytes)/1024/1024,2) mb_asignados
+from v$sgainfo
+where name not in (
+        'Free SGA Memory Available',
+        'Maximum SGA Size',
+        'Granule Size',
+        'Startup overhead in Shared Pool'
+)
+group by 'Memoria total'
+union all
+select name, trunc(bytes/1024/1024,2)
+from v$sgainfo
+where name = 'Free SGA Memory Available'
+order by 2 desc;
+--#TODO
+
+--TODO#
+Pause Analizar la consulta, [Enter] para continuar
+
+------------
+
+s-05-bind-variables.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+Prompt Conectando a PDB como SYS...
+connect sys/system2@gbldiplo_s2 as sysdba
+
+prompt Creando usuario user01
+--#TODO
+drop user if exists user01 cascade;
+create user user01 identified by user01 quota unlimited on users;
+grant create session, create table to user01;
+--TODO#
+
+Prompt Creando tabla de prueba
+--#TODO
+drop table if exists user01.test;
+create table user01.test(id number) segment creation immediate;
+--TODO#
+
+Prompt Limpiando el Shared Pool y el Library Cache
+--#TODO
+alter system flush shared_pool;
+--TODO#
+
+prompt 1. Sentencias SQL con bind variables
+set timing on
+
+--#TODO
+begin
+  for i in 1..100000 loop
+     execute immediate 'insert into user01.test (id) values (:ph1)' using i;
+  end loop;
+end;
+/
+--TODO#
+
+prompt 2. Sentencias SQL sin bind variables
+
+--#TODO
+begin
+  for i in 1..100000 loop
+    execute immediate 'insert into user01.test (id) values ('||i||')';
+  end loop;
+end;
+/
+--TODO#
+
+Prompt Mostrando datos de la sentencia SQL con bind variables
+--#TODO
+select executions, loads, parse_calls,disk_reads, buffer_gets,
+  cpu_time/1000 cpu_time_ms,elapsed_time/1000 elapsed_time_ms
+from v$sqlstats
+where sql_text = 'insert into user01.test (id) values (:ph1)';
+
+Prompt Mostrando datos de la sentencia SQL sin bind variables
+--#TODO
+select count(*) t_rows,sum(executions) executions, sum(loads) loads,
+  sum(parse_calls) parse_calls, sum(disk_reads) disk_reads,
+  sum(buffer_gets) buffer_gets, sum(cpu_time)/1000 cpu_time_ms,
+  sum(elapsed_time)/1000 elapsed_time_ms
+from v$sqlstats
+where sql_text like 'insert into user01.test (id) values (%)'
+and sql_text <> 'insert into user01.test (id) values (:ph1)';
+--TODO#
+
+set timing off
+
+Prompt Limpieza...
+--#TODO
+connect sys/system2@gbldiplo_s2 as sysdba
+drop user user01 cascade;
+--TODO#
+
+-----------
+s-06-instalar-jvm-oracle.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+prompt 1. conectando como sys en cdb$root
+connect sys/system2 as sysdba
+whenever sqlerror exit rollback;
+
+prompt 2. Validando usuario del s.o.
+--#TODO
+declare
+  v_user varchar2(128);
+begin 
+  v_user := sys_context('USERENV','OS_USER');
+  if v_user != 'oracle' then 
+    raise_application_error(-20001,
+      'El script debe ser ejecutado por el usuario oracle del sistema operativo');
+  end if;
+end;
+/
+--TODO#
+
+Prompt instalando Oracle JVM
+
+Prompt 3. Modificando parámetro _system_trig_enabled
+--#TODO
+alter system set "_system_trig_enabled" = false scope=memory;
+--TODO#
+
+Prompt 4. Creando directorio para bitacoras
+!mkdir -p /tmp/jvm
+
+Prompt 5. Habilitando javavm
+--#TODO
+host $ORACLE_HOME/perl/bin/perl ${ORACLE_HOME}/rdbms/admin/catcon.pl -n 1 -l /tmp/jvm -b initjvm ${ORACLE_HOME}/javavm/install/initjvm.sql;
+host $ORACLE_HOME/perl/bin/perl ${ORACLE_HOME}/rdbms/admin/catcon.pl -n 1 -l /tmp/jvm -b initxml ${ORACLE_HOME}/xdk/admin/initxml.sql;
+host $ORACLE_HOME/perl/bin/perl ${ORACLE_HOME}/rdbms/admin/catcon.pl -n 1 -l /tmp/jvm -b catjava ${ORACLE_HOME}/rdbms/admin/catjava.sql;
+--TODO#
+
+Prompt 6. Comprobando la instalación, El status debe ser  VALID
+col comp_name format a30
+col status format a15
+set linesize window 
+--#TODO
+select comp_name, version, status 
+from dba_registry 
+where comp_name like '%JAVA%' ;
+pause Analizar  resultados, [Enter] para continuar
+--TODO#
+
+Prompt 7.  Mostrando los componentes de Java en la BD
+--#TODO
+select count(*), object_type 
+from all_objects
+where object_type like '%JAVA%' 
+group by object_type;
+--TODO#
+pause Analizar  resultados, [Enter] para continuar
+
+Prompt 8. Ajustando parámetros
+--#TODO
+alter system set memory_max_target=2G scope=spfile;
+alter system set memory_target=1G scope=spfile;
+--TODO#
+
+Pause 9. Listo! Reiniciando instancia, [enter] para continuar
+shutdown immediate
+startup
 
 
-
+------------------
