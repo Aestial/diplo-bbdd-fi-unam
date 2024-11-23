@@ -26,7 +26,7 @@ prompt ¿Será posible pasar al modo restringido con el usuario USER01 en sesió
 pause presionar [Enter] para confirmar la respuesta
 --#TODO
 --R: Sin problema, la BD podrá pasar al modo restrictivo.
-
+alter system enable restricted session;
 --TODO#
 
 prompt 5. En la terminal del usuario USER01 intentar crear una tabla de prueba
@@ -59,13 +59,13 @@ pause [¿Qué sucederá ?, Enter para continuar]
 
 --#TODO
 --R: El usuario podrá autenticar
-
+connect user02/user02@gbldiplo_s2
 --#TODO
 
 Prompt 9. Regresando al modo no restringido en gbldiplo_s2
 connect sys/system2@gbldiplo_s2 as sysdba
 --#TODO
-
+alter system disable restricted session;
 --TODO#
 
 pause 10. Abrir en modo read only. La CDB debe detenerse [Enter para continuar]
@@ -76,13 +76,13 @@ Prompt cambiando a cdb$root
 connect sys/system2 as sysdba
 shutdown immediate 
 --#TODO
-
+startup open read only;
 --TODO#
 
 pause 11. Conectando como user02 ¿Qué sucederá? [Enter] para continuar
 --#TODO
 -- R: Error, un usuario común no podrá autenticar
-
+connect user02/user02@gbldiplo_s2
 --TODO#
 
 pause 12. Intentando autenticar como sysdba ¿Qué sucederá? [Enter] para continuar
