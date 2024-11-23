@@ -1,0 +1,522 @@
+----------------------------  Modulo 03 -----------------------------------------------
+s-01a-mueve-archivos.sh
+#!/bin/bash
+
+#@Autor: <Nombre del autor o autores> 
+#@Fecha creación: <Fecha de creación> 
+#@Descripción: <Breve descripción del contenido del script>
+
+backupDir="/home/oracle/backups/modulo-03"
+
+#Mueve el archivo unicamente si existe
+mv_file(){
+  #--TODO
+  file="$1"
+  if [ -f "${file}" ]; then
+    echo "Moviendo archivo ${file} -> ${backupDir}"
+    mv ${file} ${backupDir} 
+  fi;
+  #TODO--
+}
+
+echo "Moviendo archivos de la base de datos a directorio de respaldo ${backupDir}"
+echo "0. Validando usuario"
+
+if [ "${USER}" != "oracle" ]; then
+  echo "El script debe ser ejecutado por el usuario oracle del s.o."
+  exit 1;
+fi;
+
+echo "1. Deteniendo la instancia"
+sqlplus -s  / as sysdba  <<EOF
+ shutdown immediate
+EOF
+
+echo "2. Creando archivo de respaldo"
+mkdir -p "${backupDir}"
+
+echo "3. Moviendo SPFILE y PFILE"
+#--TODO
+mv_file "${ORACLE_HOME}/dbs/spfilefree.ora"
+mv_file "${ORACLE_HOME}/dbs/initfree.ora"
+#TODO--
+
+echo "4. Moviendo un solo archivo de control"
+mv_file "/unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/control01.ctl"
+
+echo "5. Moviendo Redo Logs"
+#Para que la instancia falle, todos los archivos REDO deberán moverse al
+#directorio de respaldos. Con un solo Redo Log que exista por grupo, la 
+#BD puede trabajar. Se tienen que mover los 3 grupos porque no tenemos
+#la certeza del grupo que se está empleando a menos que se consulte en
+#el diccionario cuál es el grupo actual (esto último se revisa en módulos 
+#diferentes)
+
+#--TODO
+#grupo 01
+mv_file "/unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/redo01a.log" 
+mv_file "/unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/redo01b.log" 
+mv_file "/unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/redo01c.log" 
+
+#grupo 02
+mv_file "/unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/redo02a.log" 
+mv_file "/unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/redo02b.log" 
+mv_file "/unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/redo02c.log" 
+
+#grupo 03
+mv_file "/unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/redo03a.log" 
+mv_file "/unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/redo03b.log" 
+mv_file "/unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/redo03c.log" 
+#TODO--
+
+echo "6. Moviendo data files"
+
+#--TODO
+mv_file "${ORACLE_BASE}/oradata/FREE/system01.dbf" 
+mv_file "${ORACLE_BASE}/oradata/FREE/users01.dbf" 
+#TODO--
+
+echo "Validando respaldo"
+
+files=(
+  "control01.ctl"
+  "redo01a.log" "redo01b.log" "redo01c.log"
+  "redo02a.log" "redo02b.log" "redo02c.log"
+  "redo03a.log" "redo03b.log" "redo03c.log"
+  "system01.dbf" "users01.dbf"
+)
+
+for file in ${files[@]}; do
+  echo "Validando ${backupDir}/${file}"
+  if ! [ -f "${backupDir}/${file}" ]; then
+    echo "ERROR: archivo ${file} no encontrado en ${backupDir}"
+    exit 1;
+  fi;
+done
+
+echo "Mostrando archivos en el directorio de respaldos"
+ls -l ${backupDir}
+--------------
+s-01b-inicia-bd-oracle.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+Prompt Usuario que ejecuta el script:
+!echo " ===> Usuario del S.O. para ejecutar: ${USER}"
+Pause "Verificar que el usuario sea oracle. Ctrl-C Cancelar, Enter para continuar"
+
+Prompt 1.  Autenticando como sysdba en cdb$root
+connect sys/system2 as sysdba
+
+define p_backup_dir='/home/oracle/backups/modulo-03'
+!mkdir -p &p_backup_dir
+
+Prompt 2. Intentando iniciar instancia modo nomount
+--#TODO
+startup nomount
+--TODO#
+
+Pause [Enter para corregir y reintentar]
+--#TODO
+Prompt restaurando archivos de parámetros
+!mv  &p_backup_dir/spfilefree.ora  $ORACLE_HOME/dbs
+!mv  &p_backup_dir/initfree.ora  $ORACLE_HOME/dbs
+--T0D0#
+
+Prompt Reintentando el inicio en modo nomount
+--#TODO
+startup nomount
+--TODO#
+pause [¿ Se corrigió el error? Enter para continuar]
+
+Prompt 3. Intentando pasar al modo mount
+--#TODO
+alter database mount;
+--TODO#
+
+pause [Enter para corregir y reintentar]
+--#TODO
+Prompt restaurando el archivo de control
+!mv &p_backup_dir/control01.ctl /unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/
+--#TODO
+
+Prompt Reintentando pasar al modo mount
+--#TODO
+alter database mount;
+--TODO#
+Pause [¿ Se corrigió el error? Enter para continuar]
+
+prompt 4. Intentar pasar al modo open
+--#TODO
+alter database open;
+--TODO#
+pause [Enter para corregir y reintentar]
+--#TODO
+prompt Restaurando datafile para el tablespace system 
+!mv &p_backup_dir/system01.dbf  $ORACLE_BASE/oradata/FREE/
+--#TODO
+
+prompt intentando abrir nuevamente 
+--#TODO
+alter database open;
+--TODO#
+
+pause [¿Se corrigió el error? Enter para restaurar datafile del TS users]
+--#TODO
+!mv &p_backup_dir/users01.dbf  $ORACLE_BASE/oradata/FREE/
+--TODO#
+
+prompt intentando abrir nuevamente 
+--#TODO
+alter database open;
+--TODO#
+
+pause [¿Se corrigió el error?, Revisar alert Log!, Enter para corregir]
+
+--#TODO
+prompt restaurando redo logs 
+-- grupo 1
+!mv &p_backup_dir/redo01a.log  /unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo01b.log  /unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo01c.log  /unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/
+
+-- grupo 2
+!mv &p_backup_dir/redo02a.log  /unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo02b.log  /unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo02c.log  /unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/
+
+-- grupo 3
+!mv &p_backup_dir/redo03a.log  /unam/diplo-bd/disks/d01/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo03b.log  /unam/diplo-bd/disks/d02/app/oracle/oradata/FREE/
+!mv &p_backup_dir/redo03c.log  /unam/diplo-bd/disks/d03/app/oracle/oradata/FREE/
+--#TODO
+
+Prompt 5. Intentando iniciar nuevamente en modo OPEN
+Prompt requiere autenticar y volver a iniciar
+--#TODO
+connect sys/system2 as sysdba
+startup open; 
+--#TODO
+
+prompt 6. Mostrando status
+--#TODO
+select status from v$instance;
+--TODO#
+
+Prompt 7. Comprobando que los archivos en el directorio backup hayan sido restaurados
+Prompt la carpeta debe estar vacía
+--#TODO
+!ls -l &p_backup_dir
+--TODO#
+
+Pause [¿La Base ha regresado a la normalidad ? Enter para terminar]
+
+------------
+s-02-modos-inicio.sql
+
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+prompt 1. Autenticando como sysdba en gbldiplo_s2
+connect sys/system2@gbldiplo_s2 as sysdba
+
+prompt 2.1 Creando al usuario  user01
+drop user if exists user01 cascade;
+create user user01 identified by user01 quota unlimited on users;
+grant create session, create table to user01;
+
+prompt 2.2 creando al usuario  user02
+drop user if exists user02 cascade;
+create user user02 identified by user02 quota unlimited on users;
+grant create session, create table to user01;
+grant create session, create table to user02;
+
+prompt 3. Abrir una terminal y entrar a sesión con el usuario user01
+pause Presionar [Enter] para continuar
+
+prompt 4. Iniciando en modo restringido en gbldiplo_s2
+prompt ¿Será posible pasar al modo restringido con el usuario USER01 en sesión?
+pause presionar [Enter] para confirmar la respuesta
+--#TODO
+--R: Sin problema, la BD podrá pasar al modo restrictivo.
+alter system enable restricted session;
+--TODO#
+
+prompt 5. En la terminal del usuario USER01 intentar crear una tabla de prueba
+prompt e intentar crear un registro
+pause ¿Qué sucederá ? [Enter] para continuar
+--#TODO
+-- Abrir terminal, autenticar con user01, crear la tabla e insertar
+-- R: Sin problema, el usuario puede hacer cualquier acción porque ya estaba
+--conectado antes de cambiar al modo restringido
+--#TODO
+
+Prompt 6. Intentando crear sesión con user02 en gbldiplo_s2
+pause [¿Qué sucederá?, Enter para continuar]
+
+--#TODO
+-- R: El usuario USER02 no podrá iniciar sesión porque ya está el modo restringido
+connect user02/user02@gbldiplo_s2;
+--TODO#
+
+prompt 7. Autenticando como sysdba en gbldiplo_s2
+connect sys/system2@gbldiplo_s2 as sysdba
+
+Prompt asignando el privilegio restricted session a user02
+--#TODO
+grant restricted session to user02;
+--TODO#
+
+Prompt 8. Intentando crear sesión con user02
+pause [¿Qué sucederá ?, Enter para continuar]
+
+--#TODO
+--R: El usuario podrá autenticar
+connect user02/user02@gbldiplo_s2
+--#TODO
+
+Prompt 9. Regresando al modo no restringido en gbldiplo_s2
+connect sys/system2@gbldiplo_s2 as sysdba
+--#TODO
+alter system disable restricted session;
+--TODO#
+
+pause 10. Abrir en modo read only. La CDB debe detenerse [Enter para continuar]
+-- ESta es una desventaja del modo read only. La BD tiene que detenerse
+-- antes de pasarla a este modo. Activar y/o suspender evita tener que
+-- cerrarla, los usuarios no tienen que desconectarse.
+Prompt cambiando a cdb$root
+connect sys/system2 as sysdba
+shutdown immediate 
+--#TODO
+startup open read only;
+--TODO#
+
+pause 11. Conectando como user02 ¿Qué sucederá? [Enter] para continuar
+--#TODO
+-- R: Error, un usuario común no podrá autenticar
+connect user02/user02@gbldiplo_s2;
+--TODO#
+
+pause 12. Intentando autenticar como sysdba ¿Qué sucederá? [Enter] para continuar
+--#TODOa
+--R:  Sin problema. Un usuario administrador puede autenticar en modo read only
+connect sys/system2@gbldiplo_s2 as sysdba
+--TODO#
+
+pause 13. Intentando autenticar como sysoper ¿Qué sucederá? [Enter] para continuar
+--#TODO
+--R:  Sin problema. Un usuario administrador puede autenticar en modo read only
+connect  sys/system2@gbldiplo_s2 as sysoper
+--TODO#
+
+pause 14. Intentando crear una tabla en el esquema public ¿Qué sucederá? [Enter] para continuar
+--#TODO
+--R: La tabla no podrá ser creada
+create table test01(id number);
+--TODO#
+
+Prompt 15. Regresar al modo de escritura y lectura
+connect sys/system2 as sysdba
+shutdown immediate 
+--#TODO
+startup open read write;
+--TODO#
+
+Prompt Listo
+
+------------
+s-03-crea-usuario.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+
+prompt Autenticando como sysdba en CDB
+connect sys/system2 as sysdba
+
+prompt Creando al common user c##user01
+--#TODO
+drop user if exists c##user01 cascade;
+create user c##user01 identified by user01 quota unlimited on users;
+grant create session, create table to c##user01;
+--#TODO
+
+----------
+s-03-sesion-a-inicia.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+Prompt Conectando como c##user01 en cdb$root
+--#TODO
+connect c##user01/user01
+--TODO#
+
+Prompt Sesión para consultar la fecha (no cerrar la terminal)
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+select sysdate;
+
+--------------
+s-03-sesion-a-shutdown.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+Prompt Conectando como sys en CDB$root
+conn sys/system2 as sysdba
+
+Prompt Mostrar sesiones y transacciones activas
+col username format a15
+col logon_time format a20
+set linesize window
+--#TODO
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+select s.sid,s.serial#,s.con_id,s.username,s.logon_time,s.type,t.xid,t.start_date
+from v$session s
+left outer join v$transaction t
+  on s.saddr= t.ses_addr
+where username is not null;
+--TODO#
+
+---------
+s-03-sesion-b-1.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+Prompt Conectando como c##user01
+connect c##user01/user01
+
+Prompt Crear tabla de prueba y crear un registro
+drop table if exists t_b_prueba;
+--#TODO
+create table t_b_prueba (id number);
+insert into t_b_prueba values (trunc(dbms_random.value(1,100)));
+--TODO#
+
+Prompt La tabla 't_b_prueba' contiene:
+select * from t_b_prueba;
+Prompt registro creado, SIN commit
+
+----------
+s-03-sesion-b-2.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+Prompt Conectando como c##user01 en cdb$root
+connect c##user01/user01
+
+Prompt Insertar otro registro en 't_b_prueba' y ejecutar *commit*
+--#TODO
+insert into t_b_prueba values (trunc(dbms_random.value(1,100)));
+commit;
+--TODO#
+
+Prompt Mostrar los datos de la tabla 't_b_prueba':
+select * from t_b_prueba;
+
+----------------
+s-03-sesion-b-shutdown.sql
+--@Autor: <Nombre del autor o autores>
+--@Fecha creación: <Fecha de creación>
+--@Descripción: <Breve descripción del contenido del script>
+Prompt Conectando como sys a la CDB$root
+conn sys/system2 as sysdba
+
+-- SHUTDOWN TRANSACTIONAL
+Prompt Sesiones y transacciones activas:
+col username format a15
+col logon_time format a20
+set linesize window
+--#TODO
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+select s.sid,s.serial#,s.con_id,s.username,s.logon_time,s.type,
+  t.xid,t.start_date
+from v$session s
+left outer join v$transaction t
+  on s.saddr= t.ses_addr
+where username is not null;
+--TODO#
+
+prompt Con base a la consulta, a continuación se ejecutará shutdown transactional
+prompt Presionar [Enter] para ejecutar la instrucción 
+pause  Posteriormente, ejecutar los comandos necesarios en la terminal 2 y/o 3 para que la instrucción sea exitosa
+prompt ejecutando shutdown transactional ...
+--#TODO
+shutdown transactional
+--TODO#
+
+Prompt  Iniciando ..
+startup 
+
+Prompt Consultando la tabla de prueba (I)...
+--#TODO
+select * from c##user01.t_b_prueba;
+--TODO#
+Prompt Revisar los datos de la tabla. ¿qué registros se conservaron y eliminaron ?
+Pause [Enter] para continuar
+
+-- SHUTDOWN IMMEDIATE
+Prompt Abrir 2 terminales y en cada una ejecutar los scripts previos del escenario B
+Pause Cuando estén listas las sesiones, presione [ENTER] para continuar
+
+Prompt Sesiones y transacciones activas:
+select s.sid,s.serial#,s.con_id,s.username,s.logon_time,s.type,
+  t.xid,t.start_date
+from v$session s
+left outer join v$transaction t
+  on s.saddr= t.ses_addr
+where username is not null;
+
+
+Pause Al ejecutar *shutdown immediate*, ¿habrá algún impedimento o se ejecutará sin contratiempos?
+--#TODO
+shutdown immediate
+--TODO#
+
+Prompt Reiniciando...
+startup
+
+Prompt Consultando la tabla de prueba (II)...
+-- En este caso sólo debería estar el registro 20
+select * from c##user01.t_b_prueba;
+
+-- SHUTDOWN ABORT
+Pause Abrir 2 terminales y en cada una ejecutar los scripts previos del escenario B [Cando estén listas las sesiones, presione ENTER para continuar]
+
+Prompt Sesiones y transacciones activas:
+select s.sid,s.serial#,s.con_id,s.username,s.logon_time,s.type,
+  t.xid,t.start_date
+from v$session s
+left outer join v$transaction t
+  on s.saddr= t.ses_addr
+where username is not null;
+
+Prompt Al ejecutar *shutdown abort*, ¿qué pasará con las sesiones abiertas?. 
+Pause Al reiniciar la instancia, ¿qué datos habrá en la tabla de prueba?
+--#TODO
+shutdown abort
+--TODO#
+
+Prompt Reiniciando...
+startup
+
+Prompt Consultando la tabla de prueba (III)...
+--#TODO
+select * from c##user01.t_b_prueba;
+--TODO#
+
+Prompt Limpiando...
+
+--#TODO
+drop user if exists c##user01 cascade;
+--TODO#
+
+Prompt Listo!
+
+--------------
+
+
+
+
+
+
