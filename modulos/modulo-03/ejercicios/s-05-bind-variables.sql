@@ -36,6 +36,14 @@ end;
 /
 --TODO#
 
+Prompt Mostrando datos de la sentencia SQL con bind variables
+--#TODO
+select executions, loads, parse_calls, disk_reads, buffer_gets, 
+  cpu_time/1000 cpu_time_ms, elapsed_time/1000 elapsed_time_ms
+from v$sqlstats
+where sql_text = 'insert into user01.test (id) values(:ph1)';
+--TODO#
+
 prompt 2. Sentencias SQL sin bind variables
 
 --#TODO
@@ -45,14 +53,6 @@ begin
   end loop;
 end;
 /
---TODO#
-
-Prompt Mostrando datos de la sentencia SQL con bind variables
---#TODO
-select executions, loads, parse_calls, disk_reads, buffer_gets, 
-  cpu_time/1000 cpu_time_ms, elapsed_time/1000 elapsed_time_ms
-from v$sqlstats
-where sql_text = 'insert into user01.test (id) values(:ph1)';
 --TODO#
 
 Prompt Mostrando datos de la sentencia SQL sin bind variables
