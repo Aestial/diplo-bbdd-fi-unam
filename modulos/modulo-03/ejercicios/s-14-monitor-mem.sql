@@ -1,10 +1,10 @@
---@Autor: <Nombre del autor o autores>
---@Fecha creación: <Fecha de creación>
---@Descripción: <Breve descripción del contenido del script>
+--@Autor: Hernandez Vazquez Jaime
+--@Fecha creación: 30/11/2024
+--@Descripción: Estadísticas de memoria simulando una carga de trabajo
 
 prompt conectando como sysdba 
 
-connect sys/system2@jrcdiplo_s2 as sysdba
+connect sys/system2@jhvdiplo_s2 as sysdba
 
 set linesize window
 Prompt creando usuario user04monitor
@@ -44,7 +44,15 @@ create table user04monitor.memory_areas(
 
 prompt Agregando un nuevo registro en user04monitor.memory_areas 
 --#TODO
-
+insert into user04monitor.memory_areas(
+  fecha,total_sga_1,total_sga_2,total_sga_3,sga_free,
+  pga_param,pga_total_2,pga_reservada,pga_reservada_max,pga_en_uso,pga_libre,pga_auto_w_areas,pga_manual_w_areas,
+  log_buffer,db_buffer_cache,shared_pool,large_pool,java_pool,stream_pool,
+  inmemory
+) values (
+  trunc(sysdate),
+  
+)
 --TODO#
 
 commit;

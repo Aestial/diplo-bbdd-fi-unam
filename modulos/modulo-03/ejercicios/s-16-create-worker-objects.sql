@@ -1,5 +1,5 @@
 Prompt conectando como usuario &p_user/&p_user, creando objetos 
-connect &p_user/&p_user@jrcdiplo_s2 
+connect &p_user/&p_user@jhvdiplo_s2 
 
 --tabla que contiene datos aleatorios
 create table random_data(
@@ -50,6 +50,6 @@ show errors
 
 --procedimiento empleado para analizar resultados
 --#TODO
-
+create or replace procedure 
 --TODO#
 show errors

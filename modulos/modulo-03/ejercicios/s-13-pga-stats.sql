@@ -1,6 +1,6 @@
---@Autor: <Nombre del autor o autores>
---@Fecha creación: <Fecha de creación>
---@Descripción: <Breve descripción del contenido del script>
+--@Autor: Hernandez Vazquez Jaime
+--@Fecha creación: 29/11/2024
+--@Descripción: Estadísticas que describen las PGA antes y después de una carga
 prompt 1. Conectando como sys
 connect sys/system2 as sysdba
 

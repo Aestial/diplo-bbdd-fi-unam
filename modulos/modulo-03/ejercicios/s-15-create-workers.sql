@@ -1,5 +1,5 @@
 prompt conectando como sys
-connect sys/system2@jrcdiplo_s2 as sysdba
+connect sys/system2@jhvdiplo_s2 as sysdba
 
 set serveroutput on 
 Prompt creando usuarios

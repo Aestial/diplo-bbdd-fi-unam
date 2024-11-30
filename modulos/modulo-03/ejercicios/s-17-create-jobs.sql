@@ -2,7 +2,7 @@
 prompt conectando como sys
 
 --los jobs serán asignados a cada worker, el usario sys solo los genera.
-connect sys/system2@jrcdiplo_s2 as sysdba
+connect sys/system2@jhvdiplo_s2 as sysdba
 define p_num_workers=5
 
 Prompt registrando jobs para realizar la carga de datos
