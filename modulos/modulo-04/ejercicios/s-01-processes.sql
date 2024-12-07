@@ -9,17 +9,18 @@ prompt 1. Este punto se ejecuta en la terminal antes de ejecutar este script
 --está detenida.
 
 --la opción -e se pone 2 veces para buscar renglones que contengan "sqlplus"
--- o la palabra "jrcdiplo_s2". Aquí el alumno debe poner el nombre de su
+-- o la palabra "free". Aquí el alumno debe poner el nombre de su
 -- instancia. La opción "-v" indica exclusión de las líneas que tengan la
 -- palabra "grep"
---!ps -ef | grep -e jhvdiplo_s2 -e sqlplus | grep -v grep
+--!ps -ef | grep -e free -e sqlplus | grep -v grep
 
 prompt 2.  Se accede a este script empleando sqlplus /nolog
-sqlplus /nolog
+-- Se hace en la terminal
+-- sqlplus /nolog
 
 pause 3. Mostrando muevamente los procesos. ¿Qué debería mostrarse? [Enter] para continuar
 --#TODO
-!ps -ef | grep -e jhvdiplo_s2 -e sqlplus | grep -v grep
+!ps -ef | grep -e free -e sqlplus | grep -v grep
 --TODO#
 
 prompt 4. Conectando como sysdba en cdb$root
@@ -27,14 +28,14 @@ connect sys/system2 as sysdba
 
 Pause 5.Ejecutando nuevamente el comando grep ¿Qué se obtendrá? [Enter] para continuar
 --#TODO
-!ps -ef | grep -e jhvdiplo_s2 -e sqlplus | grep -v grep
+!ps -ef | grep -e free -e sqlplus | grep -v grep
 --TODO#
 
 pause [Enter] para continuar
 
 prompt 6. Mostrando el proceso asociado con el listener 
 --#TODO
-!ps -ef | grep -e listener -e sqlplus | grep -v grep
+!ps -ef | grep -e LISTENER | grep -v grep
 --TODO#
 
 pause Analizar resultado, [Enter] para continuar
@@ -45,7 +46,7 @@ startup nomount
 pause Mostrando procesos. ¿ Qué se obtendrá? [Enter] para continuar
 
 --#TODO
-!ps -ef | grep -e jhvdiplo_s2 -e sqlplus | grep -v grep
+!ps -ef | grep -e free -e sqlplus | grep -v grep
 --TODO#
 
 pause Analizar resultado, [Enter] para continuar
@@ -65,7 +66,7 @@ Prompt ¿Qué diferencias existen con los identificadores de los procesos respec
 prompt a la consulta de la sesión anterior ?
 
 --#TODO
-!ps -ef | grep -e "local=yes" -e sqlplus | grep -v grep
+!ps -ef | grep -e "LOCAL=YES" -e sqlplus | grep -v grep
 --TODO#
 
 prompt Anotar/observar los IDs de los procesos (user y server)
