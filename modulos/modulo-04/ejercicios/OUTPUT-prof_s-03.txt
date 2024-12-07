@@ -1,0 +1,260 @@
+sys@free> start s-03-modos-conexion.sql
+1. Configurando modo compartido. Conectando como sysdba en cdb$root
+Connected.
+2. Configurando modo compartido
+2.1 Configurando dispatchers
+
+System altered.
+
+2.2. Configurando shared servers
+
+System altered.
+
+3. Configurando DRCP
+3.1 Iniciando el DRCP por default
+
+PL/SQL procedure successfully completed.
+
+3.2 Configturar min y max pooled servers
+
+PL/SQL procedure successfully completed.
+
+max pooled servers
+
+PL/SQL procedure successfully completed.
+
+3.3 Configurar Tiempo máximo de vida sin uso en el pool (seg) - 1h
+
+PL/SQL procedure successfully completed.
+
+3.4 Tiempo máximo de inactividad del pooled server -5 min
+
+PL/SQL procedure successfully completed.
+
+4. Configurando db_domain
+
+System altered.
+
+5. Notificar al listener los nuevos servicios
+
+System altered.
+
+6. Mostrando los servicios que ofrece el listener
+
+LSNRCTL for Linux: Version 23.0.0.0.0 - Production on 07-DEC-2024 09:26:43
+
+Copyright (c) 1991, 2024, Oracle.  All rights reserved.
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+Services Summary...
+Service "239d935517fe0356e063030011ac9ee0.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 155>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 153>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 193>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=44033))
+Service "239f4af4dd6a01c7e063030011ac8bc2.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 155>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 153>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 193>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=44033))
+Service "free.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 155>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 153>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 193>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=44033))
+Service "jrcdiplo_s2.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 155>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 153>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 193>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=44033))
+The command completed successfully
+
+Analizar resultados, [Enter] para reiniciar
+
+7. reiniciando
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+ORACLE instance started.
+
+Total System Global Area 2140598800 bytes
+Fixed Size                  5362192 bytes
+Variable Size            1577058304 bytes
+Database Buffers          436207616 bytes
+Redo Buffers                4530176 bytes
+In-Memory Area            117440512 bytes
+Database mounted.
+Database opened.
+8. Mostrando los servicios que ofrece el listener después del reinicio
+
+LSNRCTL for Linux: Version 23.0.0.0.0 - Production on 07-DEC-2024 09:30:17
+
+Copyright (c) 1991, 2024, Oracle.  All rights reserved.
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+Services Summary...
+Service "239d935517fe0356e063030011ac9ee0.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 699>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 697>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 734>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=36343))
+Service "239f4af4dd6a01c7e063030011ac8bc2.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 699>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 697>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 734>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=36343))
+Service "free.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 699>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 697>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 734>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=36343))
+Service "jrcdiplo_s2.fi.unam" has 1 instance(s).
+  Instance "free", status READY, has 4 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:0 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 699>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5001))
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: d2-diplo-jrc.fi.unam, pid: 697>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=d2-diplo-jrc.fi.unam)(PORT=5000))
+      "N000:pooled" established:0 refused:0 current:0 max:40000 state:ready
+         CMON <machine: d2-diplo-jrc.fi.unam, pid: 734>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=36343))
+The command completed successfully
+
+9. Abrir netmgr, agregar nombres de servicio en tnsnames.ora [Enter] al terminar
+10. Explorar tnsnames.ora, [Enter] al terminar de configurar
+
+11. Probar la conexión con el alias `free`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 SHARED
+
+[Enter] para continuar
+
+12. Probar la conexión con el alias `free_de`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 DEDICATED
+
+[Enter] para continuar
+
+13. Probar la conexión con el alias `free_sh`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 SHARED
+
+[Enter] para continuar
+
+14. Probar la conexión con el alias `<iniciales>diplo_s2`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 SHARED
+
+[Enter] para continuar
+
+15. Probar la conexión con el alias `<iniciales>diplo_s2_de`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 DEDICATED
+
+[Enter] para continuar
+
+16. Probar la conexión con el alias `<iniciales>diplo_s2_sh`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 SHARED
+
+[Enter] para continuar
+
+17. Mostrando datos de v$circuit ¿Qué significa cada registro?
+
+CIRCUIT          DISPATCHER       STATUS                  KBS
+---------------- ---------------- ---------------- ----------
+0000000076281030 000000008368ADD0 NORMAL              7.78125
+
+[Enter] para continuar
+
+18. Probar la conexión con el alias `<iniciales>diplo_s2_po`, mostrar el modo de conexión
+Connected.
+
+       SID SERVER
+---------- ---------
+       150 POOLED
