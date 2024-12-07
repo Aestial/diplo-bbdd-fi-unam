@@ -10,7 +10,9 @@ prompt 2. Configurando modo compartido
 prompt 2.1 Configurando dispatchers
 --#TODO
 alter system 
-  set dispatchers='(ADDRESS=(PROTOCOL=TCP)(PORT=5000)),(ADDRESS=(PROTOCOL=TCP)(PORT=5001))'
+  set dispatchers=
+  '(ADDRESS=(PROTOCOL=TCP)(PORT=5000))',
+  '(ADDRESS=(PROTOCOL=TCP)(PORT=5001))'
   scope=both;
 --TODO#
 
