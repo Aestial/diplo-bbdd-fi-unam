@@ -104,7 +104,7 @@ col tracefile format a60
 col attributes format a80
 --#TODO
 select pid,sosid,pname,tracefile,attributes, round(p.pga_alloc_mem/1024/1024,2) pga_reservada
-from v$process
+from v$process p
 where pname in ('DBW0','LGWR','SMON','PMON','MMON','S000','S001','L001','L002');
 -- L001 Pool server
 --TODO#
