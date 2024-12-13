@@ -12,6 +12,7 @@ create or replace procedure resizeImage(
   filePath varchar2, width number, height number) as language java
   name 'mx.edu.unam.fi.dipbd.ResizeImage.resizeImage(java.lang.String,int,int)';
 /
+show errors;
 --TODO#
 
 prompt 3. Copiando la imagen a /tmp
