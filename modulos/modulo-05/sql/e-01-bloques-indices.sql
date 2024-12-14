@@ -101,3 +101,5 @@ from user_indexes where index_name='T01_ID_PK';
 
 Prompt listo
 disconnect.
+
+-- 9. Cuantos bloques? 2 (a 3) máximo
