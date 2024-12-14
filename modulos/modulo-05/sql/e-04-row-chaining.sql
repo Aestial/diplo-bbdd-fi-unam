@@ -10,13 +10,32 @@ Prompt mostrar el valor del  tamaño del bloque por default.
 show parameter db_block_size
 
 Prompt conectando como user05pdb para generar una tabla grande
+
+declare
+  v_count number;
+begin
+  select count(*) into v_count
+  from all_users
+  where username = 'C##USER05';
+
+-- ddl es con sql dinamico
+if v_count > 0 then
+   execute immediate 'drop user c##user05 cascade';
+end if;
+end;
+/
+
+Prompt creando usuario
+create user c##user05 identified by user05 quota unlimited on users;
+grant create table, create session  to c##user05;
+
 connect jaime05pdb/jaime@jhvdiplo_s2 as sysdba
 
 Prompt creando tabla para provocar row chaining
-declare begin
-   execute immediate 'drop table t03_row_chaining';
+declare begin 
+  execute immediate 'drop table t03_row_chaining';
 exception
-   when others then
+when others then
       null;
 end;
 /
