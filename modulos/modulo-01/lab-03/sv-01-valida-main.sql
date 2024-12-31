@@ -1,5 +1,5 @@
---@Autor(es):       Jaime Hernandez Vazquez
---@Fecha creación:  07/11/2024
+--@Autor(es):       Jaime Hernandez
+--@Fecha creación:  30/12/2024
 --@Descripción:     Validación de resultados. Primero se conecta a CDB y a la(s)
 --                  PDB(s) para crear los objetos de validación.  Posteriormente
 --                  se vuelve a conectar para ejecutar los objetos.
