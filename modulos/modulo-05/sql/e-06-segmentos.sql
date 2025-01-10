@@ -3,7 +3,7 @@
 --@Descripción: 
 
 Prompt Explorando segmentos
-connect jorge05/jorge
+connect jaime05/jaime
 
 --#TODO
 begin 

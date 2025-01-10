@@ -1,38 +1,57 @@
+--@Autor:          Jorge A. Rodriguez C
+--@Fecha creación:  dd/mm/yyyy
+--@Descripción:
 
-Prompt connect sys/system2 as sysdba
+whenever sqlerror exit rollback
+
+define pdb=jrcdiplo_s2
+
+Prompt 1. Creando spool del ejercicio
+spool jrc-e-07-tablespace-usr-spool.txt
+
+Prompt 2.  Conectar como sysdba en cdb$root
+connect sys/system2 as sysdba
 
 set linesize window
-col property_name format a30
-col property_value format a30
+col default_temp_ts format a30
+col default_permanent_ts format a30
+col undo_ts format a30
 col tablespace_name format a30
 col username  format a30
 
-Prompt mostrando datos de los tablespaces empleando database_properties
-select property_name 
-from database_properties
-where property_name 
-like '%TABLESPACE%';
+Prompt 3. Mostrando datos de los tablespaces empleados por todos los usuarios
+--#TODO
 
-Prompt mostrando datos de los tablespaces a través de user_users (jorge05)
-connect jorge05/jorge
-select default_tablespace,temporary_tablespace,local_temp_tablespace
-from user_users;
+--TODO#
+pause Analizar resultados, [Enter] para continuar
 
-Prompt mostrando tablespace undo empleado por todos los usuarios.
-connect sys/system2 as sysdba
-show parameter undo_tablespace
 
-Prompt mostrando quotas de almacenamiento para los usuarios
-select tablespace_name,username, bytes/1024/1024 quota_mb,blocks,max_blocks
-from dba_ts_quotas;
+Prompt 4. Mostrando datos de los tablespaces a través de user_users (jorge05)
+connect jorge05/jorge@&pdb
+--#TODO
 
-Prompt Mostrar los datos del ts temporal
-select tablespace_name, tablespace_size/1024/1024 ts_size_mb, 
-  allocated_space/1024/1024 allocated_space_mb,
-  free_space/1024/1024 free_space_mb
-from dba_temp_free_space;
+--TODO#
+pause Analizar resultados, [Enter] para continuar
+
+Prompt 5. Mostrando quotas de almacenamiento para los usuarios nivel cdb$root
+Prompt conectando como sysdba en cdb$root
+connect sys/system2 as sysdba 
+--#TODO
+
+--TODO#
+pause Analizar resultados, [Enter] para continuar
+
+Prompt 6. Mostrar los datos del ts temporal
+--#TODO
+
+--TODO#
+pause Analizar resultados, [Enter] para continuar
 
 --Instrucción para cambiar el ts temporal:
---alter database default temporary tablespace <tablespace_name>;
+--#TODO
+--
+--TODO#
 
-exit
+Prompt Listo
+spool off
+disconnect
