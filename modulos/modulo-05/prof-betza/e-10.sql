@@ -43,7 +43,7 @@ Pause Analizar salida, [enter] para continuar
 Prompt mostrando datos de archivos temporales.
 --#TODO
 select file_id, file_name,tablespace_name, status, autoextensible, bytes/(1024*1024) bytes_mb
-from cdb_temp_files
+ from cdb_temp_files
 --TODO#
 
 Pause Analizar salida, [enter] para continuar

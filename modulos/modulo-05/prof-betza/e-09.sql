@@ -3,7 +3,7 @@
 --@Descripción:
 whenever sqlerror exit rollback
 
-spool gbl-e-09-tablespaces-spoola.txt
+spool /tmp/gbl-e-09-tablespaces-spoola.txt
 
 -- Actualizar con el nombre de la PDB
 define pdb='gbldiplo_s2'
@@ -38,7 +38,7 @@ create tablespace m05_store_multiple_tbs
   datafile
     '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_01.dbf' size 15m,
     '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_02.dbf' size 15m,
-    '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_03.dbf' size 15m,
+    '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_03.dbf' size 15m
   extent management local autoallocate
   segment space management auto;
 --TODO#
@@ -122,7 +122,7 @@ show errors
 
 Prompt ejecutando procedimiento
 set serveroutput on 
-exec sp_e6_reserva_extensiones
+exec sp_e06_reserva_extensiones
 
 Pause Analizar resultados,[Enter] para continuar
 
@@ -142,7 +142,7 @@ Prompt  9 Ejecutar nuevamente el programa para confirmar  resultados.
 connect &t_userlogon
 set serveroutput on
 --#TODO
-exec sp_e6_reserva_extensiones;
+exec sp_e06_reserva_extensiones;
 --TODO#
 Pause Analizar nuevamente los resultados,[Enter] para continuar
 
