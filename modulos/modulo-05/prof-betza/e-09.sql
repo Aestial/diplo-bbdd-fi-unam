@@ -1,13 +1,12 @@
---@Autor:    Hernandez Vazquez Jaime
---@Fecha creación: 11/01/2025
+--@Autor:          Jorge A. Rodriguez C
+--@Fecha creación:  dd/mm/yyyy
 --@Descripción:
-
 whenever sqlerror exit rollback
 
-spool jhv-e-09-tablespaces-spool.txt
+spool gbl-e-09-tablespaces-spoola.txt
 
 -- Actualizar con el nombre de la PDB
-define pdb='jhvdiplo_s2'
+define pdb='gbldiplo_s2'
 define syslogon='sys/system2@&pdb as sysdba'
 define t_user='m05_store_user'
 define t_userlogon='&t_user/&t_user@&pdb'
@@ -25,7 +24,7 @@ Prompt Ejercicio 1 crear TS m05_store_tbs1
 drop tablespace if exists m05_store_tbs1 including contents and datafiles;
 --#TODO
 create tablespace m05_store_tbs1
-  datafile '/opt/oracle/oradata/FREE/jhvdiplo_s2/m05_store_tbs01.dbf' 
+  datafile '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs01.dbf'
   size 30m
   extent management local autoallocate
   segment space management auto;
@@ -37,9 +36,9 @@ drop tablespace if exists m05_store_multiple_tbs including contents and datafile
 --#TODO
 create tablespace m05_store_multiple_tbs
   datafile
-    '/opt/oracle/oradata/FREE/jhvdiplo_s2/m05_store_tbs_multiple_01.dbf' size 15m,
-    '/opt/oracle/oradata/FREE/jhvdiplo_s2/m05_store_tbs_multiple_02.dbf' size 15m,
-    '/opt/oracle/oradata/FREE/jhvdiplo_s2/m05_store_tbs_multiple_03.dbf' size 15m
+    '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_01.dbf' size 15m,
+    '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_02.dbf' size 15m,
+    '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_multiple_03.dbf' size 15m,
   extent management local autoallocate
   segment space management auto;
 --TODO#
@@ -49,15 +48,16 @@ Prompt Ejercicio 3 crear TS m05_store_tbs_custom
 drop tablespace if exists m05_store_tbs_custom including contents and datafiles;
 --#TODO
 create tablespace m05_store_tbs_custom
-  datafile '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_custom_01.dbf'
-  size 15m
-  reuse
-  autoextend on next 2m maxsize 40m
-  nologging 
-  blocksize 8 k
+  datafile '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs_custom_01.dbf' 
+    size 15m
+    reuse
+    autoextend on next 2m maxsize 40m
+  nologging
+  blocksize 8k
   offline
 extent management local uniform size 64k
 segment space management auto;
+
 --TODO#
 
 Prompt Ejercicio 4 Consultar tablespaces creados
@@ -90,31 +90,31 @@ create table store_data(
 Prompt ejercicio 7 - Programa que llena un TS 
 -----------------------------------------------
 --#TODO
-create or replace procedure sp_e6_reserva_extensiones is
+create or replace procedure sp_e06_reserva_extensiones is
   v_extensiones number;
   v_total_espacio number;
-begin 
+begin
   v_extensiones := 0;
-  loop 
-    begin 
+  loop
+    begin
       execute immediate 'alter table store_data allocate extent';
     exception
       when others then
         if sqlcode = -1653 then
           dbms_output.put_line('===> Sin espacio en TS');
-          dbms_output.put_line('===> Código error:  '||sqlcode);
-          dbms_output.put_line('===> Mensaje error: '||sqlerrm);
+          dbms_output.put_line('===> Código error  '||sqlcode);
+          dbms_output.put_line('===> Mensaje error '||sqlerrm);
           dbms_output.put_line('===> '||dbms_utility.format_error_backtrace);
           exit;
         end if;
     end;
   end loop;
   --total espacio asignado
-  select sum(bytes)/1024/1024, count(*) into v_total_espacio,v_extensiones
+  select sum(bytes)/1024/1024, count(*) into v_total_espacio, v_extensiones
   from user_extents
-  where segment_name='STORE_DATA';
-  dbms_output.put_line('==> Total de extensiones reservadas: '||v_extensiones);
-  dbms_output.put_line('==> Total espacio reservado (MB):    '||v_total_espacio);
+  where segment_name ='STORE_DATA';
+  dbms_output.put_line('===> Total de extensiones reservadas: '||v_extensiones);
+  dbms_output.put_line('===> Total de espacio reservado (MB): '||v_total_espacio);
 end;
 /
 show errors
@@ -133,7 +133,7 @@ Prompt Ejercicio 8 modificar TS para poder almacenar.
 connect &syslogon
 --#TODO
 alter tablespace m05_store_tbs1
-  add datafile '/opt/oracle/oradata/FREE/jhvdiplo_s2/m05_store_tbs02.dbf'
+  add datafile '/opt/oracle/oradata/FREE/gbldiplo_s2/m05_store_tbs02.dbf'
     size 10m;
 --TODO#
 
@@ -153,8 +153,8 @@ Prompt Ejercicio 10 Consultar tablespaces
 connect &syslogon
 --#TODO
 select t.tablespace_name, count(s.tablespace_name) as total_segmentos
-from dba_tablespaces t
-left outer join dba_segments s
+from dba_tablespaces t 
+left outer join dba_segments s 
 on t.tablespace_name = s.tablespace_name
 group by t.tablespace_name
 order by 2 desc;
