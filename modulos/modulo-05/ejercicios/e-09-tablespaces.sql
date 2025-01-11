@@ -1,4 +1,4 @@
---@Autor:    Hernandez Vazquez Jaime
+--@Autor:   Hernandez Vazquez Jaime
 --@Fecha creación: 11/01/2025
 --@Descripción:
 
