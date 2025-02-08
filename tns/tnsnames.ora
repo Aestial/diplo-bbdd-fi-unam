@@ -1,0 +1,31 @@
+
+FREE_D3 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jhv.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = free.fi.unam)
+    )
+  )
+
+JHVDIPLO3_S2 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jhv.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = jhvdiplo3_s2.fi.unam)
+    )
+  )
+
+JHVDIPLO3_S1 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jhv.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = jhvdiplo3_s1.fi.unam)
+    )
+  )

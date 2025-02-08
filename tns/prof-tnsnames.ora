@@ -75,3 +75,34 @@ JRCDIPLO_S2_PO =
       (SERVER=POOLED)
     )
   )
+
+FREE_D3 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jrc.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = free.fi.unam)
+    )
+  )
+
+JRCDIPLO3_S2 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jrc.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = jrcdiplo3_s2.fi.unam)
+    )
+  )
+
+JRCDIPLO3_S1 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = d3-diplo-jrc.fi.unam)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = jrcdiplo3_s1.fi.unam)
+    )
+  )
