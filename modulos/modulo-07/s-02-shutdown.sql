@@ -27,7 +27,7 @@ startup
 
 prompt Abrir PDBs
 alter pluggable database all open;
-alter pluggable database save state;
+alter pluggable database all save state;
 
 
 Prompt apagando spool

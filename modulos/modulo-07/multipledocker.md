@@ -26,3 +26,5 @@ echo "Iniciando instancia"
 sqlplus -s / as sysdba <<EOF 
 startup 
 EOF 
+
+ drop pluggable database JRCDIPLO3_S3 including datafiles;
